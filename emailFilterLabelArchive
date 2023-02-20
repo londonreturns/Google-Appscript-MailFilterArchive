@@ -1,5 +1,5 @@
 function emailFilterLabelArchive(emailAddresses, labelNames, maxThreads, threads) {
-  // Loop each threads
+  // Loop all threads
   for (var i = 0; i < Math.min(threads.length, maxThreads); i++) {
     var thread = threads[i];
     var messages = thread.getMessages();
