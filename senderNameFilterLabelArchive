@@ -1,0 +1,41 @@
+function senderNameFilterLabelArchive(senderKeywords, labelNames, maxThreads, threads) {
+  // Loop through each thread
+  for (var i = 0; i < Math.min(threads.length, maxThreads); i++) {
+    var thread = threads[i];
+    var messages = thread.getMessages();
+
+    for (var j = 0; j < messages.length; j++) {
+      var message = messages[j];
+      var sender = message.getFrom();
+      var body = message.getPlainBody();
+      var subject = message.getSubject();
+
+      // Loop through each sender keyword
+      for (var k = 0; k < senderKeywords.length; k++) {
+        // Check if the sender's name contains the current keyword (case-insensitive)
+        if (sender.toLowerCase().indexOf(senderKeywords[k].toLowerCase()) !== -1) {
+          Logger.log("Sender: " + sender);
+          Logger.log("Subject: " + subject);
+          Logger.log("Sender Keyword: " + senderKeywords[k]);
+
+          // Loop through each label name
+          for (var l = 0; l < labelNames.length; l++) {
+            // Check if the label for the current email address exists
+            var label = GmailApp.getUserLabelByName(labelNames[l]);
+
+            // If the label does not exist, create it
+            if (!label) {
+              label = GmailApp.createLabel(labelNames[l]);
+            }
+
+            Logger.log("Label: " + labelNames[l]);
+            thread.addLabel(label);
+          }
+
+          thread.moveToArchive();
+          break;
+        }
+      }
+    }
+  }
+}
