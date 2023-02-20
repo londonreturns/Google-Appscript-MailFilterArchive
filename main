@@ -1,0 +1,13 @@
+//MAIN
+function mailFilterArchive() {
+  const numberOfThreads = [INSERT NUMBER OF THREADS TO BE FILTERED] ;
+
+  // Get all threads from the inbox
+  var tempThreads = GmailApp.getInboxThreads();
+
+  // Calling the functions
+  emailFilterLabelArchive([[INSERT EMAIL/S HERE]], [[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
+  subjectFilterLabelArchive([[INSERT SUBJECT KEYWORD/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
+  messageFilterArchiveLabel([[INSERT MESSAGE KEYWORD/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
+  senderNameFilterLabelArchive([[INSERT SENDER NAME/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
+}
