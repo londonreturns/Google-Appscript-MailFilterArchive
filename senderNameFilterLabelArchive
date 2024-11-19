@@ -1,40 +1,66 @@
 function senderNameFilterLabelArchive(senderKeywords, labelNames, maxThreads, threads) {
-  // Loop through each thread
+  // Validate 'threads' input
+  if (!threads || !Array.isArray(threads)) {
+    Logger.log("Error: 'threads' is undefined or not an array.");
+    return;
+  }
+
+  // Loop through each thread (limit to 'maxThreads')
   for (var i = 0; i < Math.min(threads.length, maxThreads); i++) {
     var thread = threads[i];
+    
+    // Get messages from the thread
     var messages = thread.getMessages();
+    
+    // Check if 'messages' is valid
+    if (!messages || messages.length === 0) {
+      Logger.log("No messages found in thread: " + thread.getFirstMessageSubject());
+      continue; // Skip to the next thread if no messages
+    }
 
+    // Loop through each message in the thread
     for (var j = 0; j < messages.length; j++) {
       var message = messages[j];
       var sender = message.getFrom();
-      var body = message.getPlainBody();
       var subject = message.getSubject();
 
+      // Extract and clean sender name
+      var senderNameMatch = sender.match(/"(.*?)"/); // Extracts the name in quotes
+      var cleanSender = senderNameMatch ? senderNameMatch[1].trim() : sender;
+      cleanSender = cleanSender.replace(/\(.*?\)/g, "").trim(); // Removes parentheses and extra text
+
       // Loop through each sender keyword
+      var matched = false; // Track if a match is found
       for (var k = 0; k < senderKeywords.length; k++) {
-        // Check if the sender's name contains the current keyword (case-insensitive)
-        if (sender.toLowerCase().indexOf(senderKeywords[k].toLowerCase()) !== -1) {
-          Logger.log("Sender: " + sender);
+        // Check if the cleaned sender's name contains the current keyword (case-insensitive)
+        if (cleanSender.toLowerCase().includes(senderKeywords[k].toLowerCase())) {
+          matched = true; // Mark as matched
+          Logger.log("Matched Sender Keyword: " + senderKeywords[k]);
           Logger.log("Subject: " + subject);
-          Logger.log("Sender Keyword: " + senderKeywords[k]);
 
           // Loop through each label name
           for (var l = 0; l < labelNames.length; l++) {
-            // Check if the label for the current email address exists
             var label = GmailApp.getUserLabelByName(labelNames[l]);
 
-            // If the label does not exist, create it
+            // If the label doesn't exist, create it
             if (!label) {
               label = GmailApp.createLabel(labelNames[l]);
+              Logger.log("Created new label: " + labelNames[l]);
             }
 
-            Logger.log("Label: " + labelNames[l]);
-            thread.addLabel(label);
+            Logger.log("Adding Label: " + labelNames[l] + " to thread: " + subject);
+            thread.addLabel(label); // Add label to the thread
           }
 
-          thread.moveToArchive();
-          break;
+          break; // Exit the senderKeywords loop since we matched
         }
+      }
+
+      // If a match was found, attempt to archive the thread
+      if (matched) {
+        Logger.log("Attempting to archive thread: " + subject);
+        thread.moveToArchive();
+        Logger.log("Thread successfully archived: " + subject);
       }
     }
   }
