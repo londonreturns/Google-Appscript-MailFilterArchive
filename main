@@ -5,6 +5,8 @@ function mailFilterArchive() {
   // Get all threads from the inbox
   var tempThreads = GmailApp.getInboxThreads();
 
+  var totalThreads = tempThreads.length
+
   // Calling the functions
   emailFilterLabelArchive([[INSERT EMAIL/S HERE]], [[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
   subjectFilterLabelArchive([[INSERT SUBJECT KEYWORD/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
