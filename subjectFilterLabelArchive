@@ -1,6 +1,6 @@
-function subjectFilterLabelArchive(keywords, labelNames, maxThreads, threads) {
-  // Loop threads
-  for (var i = 0; i < Math.min(threads.length, maxThreads); i++) {
+function subjectFilterLabelArchive(keywords, labelNames, maxThreads, threads, length) {
+  // Loop through each thread
+  for (var i = 0; i < Math.min(length, maxThreads); i++) {
     var thread = threads[i];
     var messages = thread.getMessages();
 
