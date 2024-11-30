@@ -1,4 +1,4 @@
-function senderNameFilterLabelArchive(senderKeywords, labelNames, maxThreads, threads) {
+function senderNameFilterLabelArchive(senderKeywords, labelNames, maxThreads, threads, length) {
   // Validate 'threads' input
   if (!threads || !Array.isArray(threads)) {
     Logger.log("Error: 'threads' is undefined or not an array.");
@@ -6,7 +6,7 @@ function senderNameFilterLabelArchive(senderKeywords, labelNames, maxThreads, th
   }
 
   // Loop through each thread (limit to 'maxThreads')
-  for (var i = 0; i < Math.min(threads.length, maxThreads); i++) {
+  for (var i = 0; i < Math.min(length, maxThreads); i++) {
     var thread = threads[i];
     
     // Get messages from the thread
