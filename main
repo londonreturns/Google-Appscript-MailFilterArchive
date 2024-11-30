@@ -9,7 +9,7 @@ function mailFilterArchive() {
 
   // Calling the functions
   emailFilterLabelArchive([[INSERT EMAIL/S HERE]], [[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
-  subjectFilterLabelArchive([[INSERT SUBJECT KEYWORD/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
+  subjectFilterLabelArchive([[INSERT SUBJECT KEYWORD/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads, totalThreads)
   messageFilterArchiveLabel([[INSERT MESSAGE KEYWORD/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
-  senderNameFilterLabelArchive([[INSERT SENDER NAME/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads)
+  senderNameFilterLabelArchive([[INSERT SENDER NAME/S HERE]],[[INSERT LABEL/S HERE]], numberOfThreads, tempThreads, totalThreads)
 }
